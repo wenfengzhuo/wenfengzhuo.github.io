@@ -1,0 +1,352 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://wenfengzhuo.github.io/2020-04-01-System%20Design%20-%202/">
+      
+      
+        <meta name="author" content="Wenfeng Zhuo">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.0.2">
+    
+    
+      
+        <title>System Design Part 2 - How we approach</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.07c9fbf5.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<link rel="preconnect dns-prefetch" href="https://www.google-analytics.com">
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-XXXXXXXX-X","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview")})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#high-level-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://wenfengzhuo.github.io" title="Wenfeng" class="md-header-nav__button md-logo" aria-label="Wenfeng">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Wenfeng
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              System Design Part 2 - How we approach
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                  <h1>System Design Part 2 - How we approach</h1>
+                
+                <blockquote>
+<p>The article is still in draft stage.</p>
+</blockquote>
+<p>Before we dig into various aspects of system designs, we shall first review and retrospect where we start when asked for designing a system. </p>
+<h3 id="high-level-architecture">High-Level Architecture<a class="headerlink" href="#high-level-architecture" title="Permanent link">&para;</a></h3>
+<p>We can start with a high-level architecture, similar to Figure-1 below. Before long, you will find that nearly majority of systems you are about to design follow the same pattern. A client sends a request to a server, and then the server queries a database. The database sends back some data or confirmation and the server optionally processes the data before sending a response to the client. </p>
+<p><img src="/assets/images/5DE69707-4217-43FB-A7DF-C9ED96E0A99E.jpeg" width="600" height="170" style="text-align: center"/></p>
+<p>This diagram seems specific to an online system, for example a website, but can be applied to many problems if you think of the <code>client</code>, <code>server</code>, <code>database</code> in a more general way. </p>
+<blockquote>
+<p><strong>client</strong> can be: a real user, a web browser, a programming language library, a console or terminal, a batch job driver <br/>
+<strong>server</strong> can be: any server that accepts requests from clients and responds accordingly. For example, a web server, a load balancer, a DNS server, a cache system, a batch job master server <br/>
+<strong>database</strong> can be: any system that persists any data for future usage</p>
+</blockquote>
+<h3 id="examples-of-systems">Examples of Systems<a class="headerlink" href="#examples-of-systems" title="Permanent link">&para;</a></h3>
+<p>Let’s review some examples.</p>
+<h4 id="url-shortening-system">URL Shortening System<a class="headerlink" href="#url-shortening-system" title="Permanent link">&para;</a></h4>
+<p>In a URL shortening system (commonly asked in a technical interview), a client can be a website similar to <a href="https://bitly.com">bitly.com</a>, which interacts with users who wants to shorten a long link in his hand. Once a user enters his link in the text box and click the <code>Shorten</code> button, a http request will be sent to a remote server with the link to be shortened and optionally the user’s information if she/he logins in.</p>
+<p>In a small system, the server might just be a single machine that listens a TCP/IP port and exchanges data with outside world. The server processes the request, namely shortening the provided link by using some common techniques like hashing, and store relevant data in a database that can be relational database like MySQL, PostgresSQL or non-relational database such as MongoDB, Cassandra, etc. </p>
+<p>In a large system that serves millions of users, the server is actually a distributed system that probably comprise of load balancer, tons of commodity machines running the same web service. Additionally, a caching layer will be placed in an appropriate position (we shall revisit more details later about caching system). There will be clusters of database instances which are either leader(s) or followers (a side note: I will avoid using master/slave term as much as possible, but they are the same concepts as leader/follower.). </p>
+<p><em>Summary of URL Shortening System</em></p>
+<blockquote>
+<p><strong>Client</strong>: a real user or websites or Javascript that interacts with servers <br/>
+<strong>Server</strong>: a web server listens on 80 or 433 port, or a cluster of servers and load balancers <br/>
+<strong>Database</strong>: MySQL or PostgresSQL, or MongoDB, DynamoDB, Cassandra</p>
+</blockquote>
+<h4 id="in-memory-caching-system">In-memory Caching System<a class="headerlink" href="#in-memory-caching-system" title="Permanent link">&para;</a></h4>
+<p>Caching layer is commonly found in many software systems. A famous example is memcached - an open source key-value based in-memory caching system.</p>
+<p>In such a system, there might exist a variety of types of clients. Libraries for major programming languages will be available (such as <a href="https://github.com/dustin/java-memcached-client">here</a> for Java, <a href="https://github.com/pinterest/pymemcache">here</a> for Python, and <a href="https://github.com/php-memcached-dev/php-memcached">here</a> for PHP). In fact, you can even use <a href="https://en.wikipedia.org/wiki/Telnet">telnet</a> to interact with memcached server. </p>
+<p>On the server side, usually it uses a hash table in memory and the table size can grow to as much as the memory capacity. A special characteristic about caching system is that it usually doesn’t have a persistent layer. The primary reason is that caching system is not source of truth for the data.</p>
+<p><em>Summary of In-memory Caching System</em></p>
+<blockquote>
+<p><strong>Client</strong>: Java/Python/PHP library or telnet <br/>
+<strong>Server</strong>: a server with a big hash table or a cluster of servers <br/>
+<strong>Database</strong>: usually no persistent layer</p>
+</blockquote>
+<h4 id="a-batch-processing-system">A Batch Processing System<a class="headerlink" href="#a-batch-processing-system" title="Permanent link">&para;</a></h4>
+<p>Batch processing system is quite different from the above two in the first glance. Common batch processing includes <a href="https://hadoop.apache.org">Hadoop</a> and <a href="https://spark.apache.org">Spark</a>. While paradigm of designing is a bit different, we can still manage to use the abstract architecture to describe them. </p>
+<p>In such a system, a driver program can be regarded as a client. It initiates a batch processing job and submits it to the cluster of the system. The system comprises of master nodes and worker nodes. Master nodes respond to clients’ requests and coordinate jobs with worker nodes, which execute tasks independently. </p>
+<p>This cluster usually relies on distributed file system to persist data where we can refer as the “database” for the batch process system. <a href="https://hdfs.apache.org">HDFS</a> is an open sourced distributed file system commonly used in the industry.</p>
+<p><em>Summary of Batching Processing System</em></p>
+<blockquote>
+<p><strong>Client</strong>: a driver program <br/>
+<strong>Server</strong>: the cluster of the system which has master nodes and worker nodes <br/>
+<strong>Database</strong>: a distributed file system. </p>
+</blockquote>
+<h3 id="how-to-differentiate">How to Differentiate<a class="headerlink" href="#how-to-differentiate" title="Permanent link">&para;</a></h3>
+<p>Surprisingly, the above three systems are quite different but can all be described with a single formula: client - server - database. If it applies to all systems, what is the point of system design? There must be some unique aspects about each particular system so that the design is essential in building and maintaining it.</p>
+<p>Systematically, two types of requirements make a system unique regardless of how it is similar to any other system you encountered:</p>
+<ul>
+<li>Functional Requirements</li>
+<li>Non-Functional Requirements</li>
+</ul>
+<p><strong>Functional Requirements</strong></p>
+<p>These requirements describe the functionalities the system provide. In the URL shortening system, the requirements are: shorten a given URL and store it, retrieve original URL given a shortened URL; In the distributed caching system, the requirements are: store a piece of data associated with a key, retrieve the data with given key. When designing these systems, you have to make sure the system will <code>correctly</code> satisfy these requirements. </p>
+<p>Correct implementation is the key, which requires you to: 
+* Understand the problem you are solving deeply
+* Know the use cases of the system
+* Take care of corner cases
+* Leverage known algorithms and data structures or devise your own </p>
+<p>Often, we easily overlook the importance of the functional requirements and focus too much on the non-functional requirements.  Consequently, we need to rework the design later or deviate from the initial goal of creating the system.</p>
+<p><strong>Non-functional Requirements</strong></p>
+<p>These requirements describe how well the system will serve its functionalities. Usually, it is to ensure: user experience, data integrity, cost effectiveness, low maintenance effort, etc. With these goals in mind, you system needs to take into consideration of a subset of the following things:</p>
+<ul>
+<li>The availability of the system (it should be the same for a single user or a billion of users)</li>
+<li>The latency of responding client requests</li>
+<li>The consistency of the data (whether it is consistent for two different users and/or at two different times and/or in two different geolocations)</li>
+<li>The cost (machines, development, maintenance) </li>
+</ul>
+<p>Different systems have different requirements, which make them differentiated from others. In URL shortening system, you need to keep it up running 7/24 and ensure generating the shortened URL quickly enough to make user believe it is worth their effort in using the tool rather than retrieving the long URL directly from their notebook. In the distributed caching system, the system should guarantee a high level of consistency of the data it caches. When a user updates the value of a key, another user should see the change of the same key after a short period of time. </p>
+<p>There are many techniques for satisfying these non-functional requirements, and we shall discuss them in details separately.</p>
+<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<p>When tasked with a system design, it's helpful if we can systematically approach it. The general suggestion here is to:</p>
+<ol>
+<li>Start with exploring the functional requirements of the system </li>
+<li>Build a high-level architecture of the system</li>
+<li>Scope the non-functional requirements and examine the trade-off of different factors
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTIzMDU3OTgxMywtMTEzMTQ5NTkzNiwtMT
+YzNzY3ODE3MiwtMzAxMDEwOTAzLDExMzA3MjUxMjksLTU4MjAz
+MDYwNiwtMTYxMTg1NDQzMywtNTgyMDMwNjA2LC0xNTE4OTU2Mj
+UzLDQzNzg4NTAxMF19
+--></li>
+</ol>
+                
+                  
+                
+              
+              
+                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>var disqus_config=function(){this.page.url="https://wenfengzhuo.github.io/2020-04-01-System%20Design%20-%202/",this.page.identifier="/2020-04-01-System%20Design%20-%202/"};!function(){var e=document,i=e.createElement("script");i.src="//wenfengzhuo.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)}()</script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+
+<!-- Application footer -->
+<footer class="md-footer">
+
+  <!-- Link to previous and/or next page -->
+  
+    <div class="md-footer-nav">
+      <nav
+        class="md-footer-nav__inner md-grid"
+        aria-label="Footer"
+      >
+
+        <!-- Link to previous page -->
+        
+          <a
+            href="../2020-03-14-System%20Design%20-%201/"
+            title="System Design Part 1 - Trade-off Science"
+            class="md-footer-nav__link md-footer-nav__link--prev"
+            rel="prev"
+          >
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                System Design Part 1 - Trade-off Science
+              </div>
+            </div>
+          </a>
+        
+
+        <!-- Link to next page -->
+        
+          <a
+            href="../2020-04-09-ml-system-papers/"
+            title="ML System Papers You Should Read"
+            class="md-footer-nav__link md-footer-nav__link--next"
+            rel="next"
+          >
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                ML System Papers You Should Read
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+
+  <!-- Further information -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+
+      <!-- Copyright and theme information -->
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2020 Wenfeng Zhuo
+          </div>
+        
+      </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

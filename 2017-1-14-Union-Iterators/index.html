@@ -1,0 +1,426 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://wenfengzhuo.github.io/2017-1-14-Union-Iterators/">
+      
+      
+        <meta name="author" content="Wenfeng Zhuo">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.0.2">
+    
+    
+      
+        <title>Union Iterators</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.07c9fbf5.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<link rel="preconnect dns-prefetch" href="https://www.google-analytics.com">
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-XXXXXXXX-X","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview")})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#priority-queue" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://wenfengzhuo.github.io" title="Wenfeng" class="md-header-nav__button md-logo" aria-label="Wenfeng">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Wenfeng
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Union Iterators
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                  <h1>Union Iterators</h1>
+                
+                <blockquote>
+<p><strong>Input</strong>:</p>
+<p>M iterators</p>
+<p>N tuples in each iterator</p>
+<p>K keys in each tuple</p>
+<p><strong>Output</strong>:</p>
+<p>The ordered union of all tuples from each iterators.</p>
+<p><strong>Assumption</strong>:</p>
+<p>1 Tuples are different to each other in the same iterator</p>
+<p>2 Each iterator has exact the same number of tuples</p>
+</blockquote>
+<p>The question above could be simplified as: <em>merge M iterators into a single stream and keep those tuples sorted in the final stream</em>. As tuples in a single iterator are already in order, what we need to take care is to maintain the relative order among the different iterators during the merging process. With this objective, I have two solutions in mind.</p>
+<h3 id="priority-queue">Priority Queue<a class="headerlink" href="#priority-queue" title="Permanent link">&para;</a></h3>
+<p><strong>Algorithm</strong></p>
+<p>Why does a priority queue help? The thinking process is pretty straightforward. As we want to make the final single stream as sorted, during the merging process if we always pick the smallest elements from those M iterators and put it to our final stream, then we will finally get a sorted single stream. To pick the smallest elements efficiently, priority queue (or heap) might be the most appropriate choice. We could maintain a min-heap, which has the smallest element in the root. The retrieval of smallest element and the addition of a element to the queue will both cost O(log(n)) time, n is the number of elements in the queue.</p>
+<p><strong>Pseudo Code</strong></p>
+<p>The following pseudo code elaborates the algorithm above. To make it simple, the code assumes that the final stream r (a list) will have a <em>add()</em> function, the function will append an element in this tail and also it will ignore those elements who are the same with the tail so that the final stream does not contain duplicates. For the priority queue, we will assume that it could compare the first element of a iterator.</p>
+<div class="codehilite"><pre><span></span><code>union(Iterator[] A):
+  r = []
+  q = priority queue
+  for i in A
+    if i has next
+      q.offer(i)  ====&gt; (1) O(Klog(M)) * M
+  while q has next
+    i = q.poll()  ====&gt; (2) O(Klog(M) * N * M
+    r.add(i.next())
+    if i has next
+      q.offer(i)  ====&gt; (3) O(Klog(M)) * (N*M - M)
+  return r
+</code></pre></div>
+
+
+<p><strong>Complexity</strong></p>
+<p>In the code above, we could see that we first add those iterators who have elements into the priority queue. Then we will retrieve the smallest element every time we poll the root from the priority queue. After we add the smallest element in our final stream, we also need to make sure that we will add the iterator back if it still has elements in it.</p>
+<p>In line (1), we can see the program will execute M times if we have M iterators, for each addition into the queue, it will be O(log(M)) comparisons as of the property of priority queue. We have to notice that, for each comparison, it will cost O(K) time to compare a tuple since there are K keys in each tuple. So in total, the line (1) will contribute O(Klog(M)) * M to the time complexity. In line (3), we know that there are still (N*M - M) elements that are needed to be offered in the queue, so in total, it will be O(Klog(M))*(N*M - M). All in all, the total time complexity of this algorithm will be O(N * K * M * log(M)) in worst case.</p>
+<p>To be more precise, as the number of comparisons matters if K is relatively not small, we could dive deeper to see more precise number of comparisons for this algorithm. From the code above, we could know that each tuple in those iterators will be offered in the queue and polled out of the queue for once separately. As a result, there will be 2 * N * M operations with the queue. For <em>poll</em> operation, by knowing the property of heap, we know that it will end up with 2 * log(M) comparisons because it requires two comparisons to determine which key is smaller during the repairing of the heap. For <em>offer</em> operation, it will require another log(M). In total, there will be 3 * N * M * log(M) comparisons, and hence the total time complexity will be O(3 * N * K * M * log(M)).</p>
+<p>As for the space complexity, we know that during the merging process, there will always be M elements if all iterators still have remaining elements. So in worst case, it will be O(M) elements in queue, and each elements has O(K) keys, so in total, the space complexity will be O(M * K).</p>
+<p>In conclusion:
+Time Complexity: O(N * K * M * log(M))
+Space Complexity: O(M * K)</p>
+<h3 id="divide-and-conquer">Divide-and-Conquer<a class="headerlink" href="#divide-and-conquer" title="Permanent link">&para;</a></h3>
+<p><strong>Algorithm</strong></p>
+<p>Another way to think this problem is to find whether there is an approach to simplify the problem or convert the problem to an existing solved problem. We could start with a very simple case: if there are only two iterators to be merged. In this case, the situation is just like a the merging phase in merge-sort, so we could use the same logic to solve the problem in this case. If there are more iterators, we could always divide those iterators into halves, and solve it recursively until there are only two iterators. This logic is pretty much the same with merge-sort.</p>
+<p><strong>Pseudo Code</strong></p>
+<p><em>mergeIterator</em> is a function that merges two sorted iterators into a single iterable object. The function assumes that the iterator has a <em>peek</em> function that returns the first elements in the iterator.</p>
+<div class="codehilite"><pre><span></span><code>mergeIterator(Iterator l, Iterator r)
+  r = []
+  while l has next &amp;&amp; r has next
+    kl = l.peek()
+    kr = r.peek()
+    if kl &lt;= kr ====&gt; O(K)
+      r.add(l.next())
+    else
+      r.add(r.next())
+  while l has next
+    r.add(l.next())
+  while r has next
+    r.add(r.next())
+  return r
+</code></pre></div>
+
+
+<p><em>union</em> is the major function in this algorithm. It adopts the same idea with merge-sort. It divides the iterator array into halves recursively, and then use <em>mergeIterator</em> function to merge the iterators that are returned by the two recursive call.</p>
+<div class="codehilite"><pre><span></span><code>union(Iterator[] A)
+  len = len of A
+  if len == 0
+    return []
+  if len == 1
+    return [](A[0])
+  mid = len / 2
+  l = union(A[:mid]) ====&gt; (1) f(M/2)
+  r = union(A[mid+1:]) ====&gt; (2) f(M/2)
+  return mergeIterator(l, r) ====&gt; (3) O(N * M * K) =&gt; O(N * k * M)
+</code></pre></div>
+
+
+<p><strong>Complexity</strong></p>
+<p>As we can see in the code, the time complexity follows the formula of a typical divide-and-conquer solution:</p>
+<blockquote>
+<p>T(n) = 2*T(n/2) + f(n)</p>
+</blockquote>
+<p>In the line (3), we can see it calls <em>mergeIterator</em> function. The <em>mergeIterator</em> function has time complexity proportional to the size of the two iterators, because there will be the same number of comparisons with the number of elements in these two iterators. As a result, line (3) indicates that f(n) = O(N*M*K)=O(NK * M). According to the master theorem, the final time complexity of this algorithm will be O(N * K * M * log(M)).</p>
+<p>Let's see the number of comparisons in this algorithm. In <em>mergeIterator</em> function, the maximum number of comparison is equal to the sum of the number of elements in the two given iterators (for example, if the two iterators are [1, 3, 5], [2, 4, 5], the number of comparison will be 3 + 3 - 1). The number of comparisons follows the divide-and-conquer formula:</p>
+<blockquote>
+<p>C(n) = 2 * C(n/2) + f(n)</p>
+</blockquote>
+<p>The f(n) = N * M, when n = M, then the exact maximum number of comparison will be O(N * M * log(M)), hence the total time complexity will be O(N * K * M * log(M)).</p>
+<p>For space complexity, as you can see from the code, there will be no extra space needed if we do not count the stack space for recursive call. With the space for recursive call considered, the space complexity will be O(log(M)).</p>
+<p>In conclusion:
+Time Complexity: O(N * K * M * log (M))
+Space Complexity: O(log(M))</p>
+<h3 id="comparison-between-queue-and-divide-and-conquer">Comparison between queue and divide-and-conquer<a class="headerlink" href="#comparison-between-queue-and-divide-and-conquer" title="Permanent link">&para;</a></h3>
+<p><strong>Time Complexity</strong></p>
+<p>From the time complexity perspective, both of the two functions will have the same time complexity, which means that theoretically, both of the two algorithms will have nearly same running time for the same input. While taking the constant factor into consideration, the divide-and-conquer has smaller constant factor due to the fewer comparison during the merging process. In general, the divide-and-conquer solution performs better than the queue solution.</p>
+<p><strong>Space Complexity</strong></p>
+<p>As we could tell clear from the descriptions above, the divide-and-conquer solution will requires much less space than the priority queue solution. In practice, if we adopt divide-and-conquer solution, it means we only need few extra memory to achieve the same time complexity with the priority queue solution. In fact, in practice more extra memory might have impact on the total running time. When request more memory, new memory will be allocated, and this process will cost some time. What is more, if the data is too large to fit in memory, then virtual memory will be involved, which has significantly lower performance than the RAM memory. In this perspective, I will prefer divide-and-conquer solution.</p>
+<p><strong>Parallel capability</strong></p>
+<p>By using divide-and-conquer method, we know that the second approach could parallelize very well. To simply put, we could run the two halves of the iterator arrays at the same time, and this applies to every recursive call. By using parallelism, in assumption that we have enough processors, the time complexity will be reduced to O(N*M*K). Further discussion will be covered in next section.
+For priority queue solution, since we need to get the smallest tuples every time we poll from the queue, it is hard for us to parallelize the algorithm.</p>
+<h3 id="further-optimization">Further Optimization<a class="headerlink" href="#further-optimization" title="Permanent link">&para;</a></h3>
+<p><strong>Parallelism</strong></p>
+<p>As we already mentioned in previous section, we could parallelize divide-and-conquer solution in a very natural way. The following pseudo code explains how could achieve parallelism:</p>
+<div class="codehilite"><pre><span></span><code>union(Iterator[] A)
+  len = len of A
+  if len == 0
+    return []
+  if len == 1
+    return [](A[0])
+  mid = len / 2
+  fork l = union(A[:mid]) ====&gt; (1)
+  r = union(A[mid+1:])
+  join                    ====&gt; (2)
+  return mergeIterator(l, r)
+</code></pre></div>
+
+
+<p>In line (1), we create a new thread (or process) to run the recursive call for the left half of the array in parallel. In line(2), we will wait the completion of the two processes. So the time complexity could be calculated with the formula:</p>
+<blockquote>
+<p>T(M) = T(M/2) + O(M * N * K)</p>
+</blockquote>
+<p>As a result, the final time complexity will be O(N * K * M).</p>
+<p><strong>Tuple Comparison</strong></p>
+<p>For a tuple, assign a hash value for it. The hash value is determined by the keys in each tuple. The large tuple will have large hash value. Then for most of keys, just compare their hash value, we will know their order. For the tuples who have the same hash value, we compare them by comparing the keys in each tuple. The following picture shows a way of hashing a tuple.</p>
+<p><img alt="hash" src="http://i.imgur.com/LJs9a5U.png" /></p>
+<p>Let's assume the range of keys in those tuples is 0~1023, and there are 3 keys in each tuples. We divide the whole range with 2^3 = 8 parts, each part will be labeled as 0, 1, 2, ..., 7. The following code explains how we compute the hash for a tuple: t (k1, k2, k3).</p>
+<div class="codehilite"><pre><span></span><code>hash(tuple)
+  h = 0
+  i = 0
+  while i &lt; 3
+    if tuple[i] &gt;= 512
+      h |= 1 &lt;&lt; (2-i)
+    i ++
+  return h
+</code></pre></div>
+
+
+<p>Let's assume each tuple now has a function <em>hashCode</em> which returns a pre-computed hash. If luckily, all the tuples in those iterators have different hash value, then we could directly reduce the time complexity of our algorithm to O(N*M*log(M)). In reality, some tuples might have the same hash value. So we need to do an amortized analysis of the algorithm. If all the tuples distributed normally in the picture above, then we could calculate the how many tuples might end up with having the same hash values. For two tuples, the possibility to have the same hash value will be 1 / (2 ^ k). We know that there will N*M comparisons in total, so for those comparisons which need full comparisons of each keys, the total number will be (1/(2^k)) * (N*M). Let's assume there is <strong>c</strong> percentage of comparison which could directly use hash values. So the average time for each comparison will be</p>
+<blockquote>
+<p>((1/(2^k)*(N*M)) * K + cN*M)/(M*N) = K/(2^K) + c</p>
+</blockquote>
+<p>As c is lower than 1 (because not all comparisons could directly use hash values), so the average time for each comparison will less than 2. The time complexity now will be from O(N*K*M*log(M)) to O(N*M*log(M)） because the average time for comparison becomes constant time.</p>
+<p><strong>Combination</strong>
+Theoretically, if we combine above two optimizations, we could achieve O(N * M) time</p>
+<h3 id="benchmark">Benchmark<a class="headerlink" href="#benchmark" title="Permanent link">&para;</a></h3>
+<p>As to demonstrate the algorithms described above and its performance, I implemented them with Java. The source code could be found here:</p>
+<blockquote>
+<p><a href="https://github.com/wenfengzhuo/union-iterator">Union Iterators</a></p>
+</blockquote>
+<p>The following pictures show the results from the benchmark tests for those two algorithms.</p>
+<p><img alt="M" src="http://i.imgur.com/OwDe7tz.png" /></p>
+<p><strong>Picture 1</strong>: The running time for different number of iterations to be merged. (M changed)</p>
+<p><img alt="N" src="http://i.imgur.com/hiKMXvs.png" /></p>
+<p><strong>Picture 2</strong>: The running time for different number of elements in each iterator. (N changed).</p>
+<p>For the <strong>picture 1</strong>, we could see that when number of iterators to be merged grows, divide-and-conquer solution will perform better than priority queue solution. This is what we expected from the analysis of the algorithm. Although there are some difference in running time, the two solutions differ only in a small scale, which might indicates the constant factor might not cause huge performance gap between these two solutions.</p>
+<p>For the <strong>picture 2</strong>,  an interesting thing to note that is the priority queue solution outperforms than the divide-and-conquer solution when number of elements in each iterator grows. This could be interpreted as the the M is small so it will not gain too much from the benefits of divide-and-conquer solutions, and the function call during the recursive process might cost some overhead, which make it slower than the priority queue solution.</p>
+<p>From the two pictures above, we could conclude that, in real-world practice, when M is usually large, we might choose divide-and-conquer solution, and when N is usually larger than M, we could choose priority queue solution.</p>
+<p>In the two pictures, we could see that there is a third line called <em>ParallelMerger</em>. It is the parallelized version of divide-and-conquer solution. Unfortunately, it does not meet our expectation. One explanation could be that there is thread-switching overhead that makes it slower than non-parallelized algorithm. Or maybe I could implement in a different way for <em>ParallelMerger</em>.</p>
+                
+                  
+                
+              
+              
+                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>var disqus_config=function(){this.page.url="https://wenfengzhuo.github.io/2017-1-14-Union-Iterators/",this.page.identifier="/2017-1-14-Union-Iterators/"};!function(){var e=document,i=e.createElement("script");i.src="//wenfengzhuo.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)}()</script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+
+<!-- Application footer -->
+<footer class="md-footer">
+
+  <!-- Link to previous and/or next page -->
+  
+    <div class="md-footer-nav">
+      <nav
+        class="md-footer-nav__inner md-grid"
+        aria-label="Footer"
+      >
+
+        <!-- Link to previous page -->
+        
+          <a
+            href="../2017-1-14-Linked-List/"
+            title="Linked List vs Array List"
+            class="md-footer-nav__link md-footer-nav__link--prev"
+            rel="prev"
+          >
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Linked List vs Array List
+              </div>
+            </div>
+          </a>
+        
+
+        <!-- Link to next page -->
+        
+          <a
+            href="../2017-1-4-Anycalc/"
+            title="Anycalc - make everything calculable"
+            class="md-footer-nav__link md-footer-nav__link--next"
+            rel="next"
+          >
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Anycalc - make everything calculable
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+
+  <!-- Further information -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+
+      <!-- Copyright and theme information -->
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2020 Wenfeng Zhuo
+          </div>
+        
+      </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
