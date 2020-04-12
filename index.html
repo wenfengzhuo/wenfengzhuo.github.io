@@ -143,6 +143,13 @@
             <article class="md-content__inner md-typeset">
               
 <style>
+  .override-nav {
+  }
+
+  .override-nav > div:first-of-type > h2:first-of-type {
+    margin-top: 0;
+  }
+ 
   .nav-item {
     border-bottom: 1px solid #f2f2f0;
   }
@@ -157,7 +164,7 @@
   }
 </style>
 
-<div>
+<div class="override-nav">
   
     
       
@@ -330,39 +337,6 @@ insertion and deletion...</p>
 
   <!-- Link to previous and/or next page -->
   
-    <div class="md-footer-nav">
-      <nav
-        class="md-footer-nav__inner md-grid"
-        aria-label="Footer"
-      >
-
-        <!-- Link to previous page -->
-        
-
-        <!-- Link to next page -->
-        
-          <a
-            href="2016-11-21-Tree-Traversal/"
-            title="Binary Tree Traversal"
-            class="md-footer-nav__link md-footer-nav__link--next"
-            rel="next"
-          >
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Binary Tree Traversal
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
-  
 
   <!-- Further information -->
   <div class="md-footer-meta md-typeset">
@@ -372,7 +346,7 @@ insertion and deletion...</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2016 - 2020 Wenfeng Zhuo
+            Copyright &copy; 2016 - 2020 Wenfeng Zhuo, made with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank">Material for MkDocs</a>.
           </div>
         
       </div>
