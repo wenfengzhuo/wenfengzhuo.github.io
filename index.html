@@ -15,7 +15,7 @@
         <meta name="author" content="Wenfeng Zhuo">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.2">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
     
     
       
@@ -23,9 +23,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.dd2393d5.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.89dc9fe3.min.css">
       
-        <link rel="stylesheet" href="assets/stylesheets/palette.c8acc6db.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.ecd4686e.min.css">
       
       
         
@@ -116,7 +116,7 @@
       <div class="md-search__scrollwrap" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Initializing search
+            Type to start searching
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -149,7 +149,7 @@
   .override-nav > div:first-of-type > h2:first-of-type {
     margin-top: 0;
   }
- 
+
   .nav-item {
     border-bottom: 1px solid #f2f2f0;
   }
@@ -160,6 +160,15 @@
     font-style: normal;
     font-size: 18px;
     line-height: 1.59;
+    color: #666665;
+  }
+
+  .nav-item span {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 100;
+    font-style: italic;
+    font-size: 16px;
     color: #666665;
   }
 </style>
@@ -173,8 +182,6 @@
         
       
     
-      
-        
       
     
       
@@ -229,6 +236,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
 </blockquote>
 <p>During the...</p>
         </section>
+        <span>2020-04-26</span>
       </div>
     
       <div class="nav-item">
@@ -236,6 +244,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
         <section class="nav-item-excerpt">
           <p><p>Machine learning system is a specialized system that is built for solving problems with machine learning deeply integrated. While it has existed for a while, machine learning is just becoming popular in recent decades compared with other...</p>
         </section>
+        <span>2020-04-09</span>
       </div>
     
       <div class="nav-item">
@@ -247,6 +256,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
 <p>Before we dig into various aspects of system designs, we shall first review and retrospect where we start when asked for designing a system. </p>
 <h3...</p>
         </section>
+        <span>2020-04-01</span>
       </div>
     
       <div class="nav-item">
@@ -257,6 +267,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
 </blockquote>
 <p>System Design is an essential skill for every software engineer. The magnitude of involvement will differ from person to person based on their experience and seniority. System...</p>
         </section>
+        <span>2020-03-14</span>
       </div>
     
       <div class="nav-item">
@@ -267,6 +278,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
 </blockquote>
 <p>Finding a job in US is never an easy...</p>
         </section>
+        <span>2017-03-26</span>
       </div>
     
       <div class="nav-item">
@@ -275,6 +287,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
           <p><h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
 <p>This patch implemented a new type of query that supports query of max timestamp of all rows under a partition key. The following...</p>
         </section>
+        <span>2017-02-10</span>
       </div>
     
       <div class="nav-item">
@@ -283,6 +296,7 @@ The ideas, thoughts, opinions, and suggestions in the video are all based on my 
           <p><p>Anycalc is an extensible library I developed recently, which aims to let developers easily create calculators for caclulating
 on customized objects rather than just numbers. To create a new calculator on customzied objects, the library requires...</p>
         </section>
+        <span>2017-01-14</span>
       </div>
     
       <div class="nav-item">
@@ -296,6 +310,7 @@ on customized objects rather than just numbers. To create a new calculator on cu
 <p><strong>Output</strong>:</p>
 <p>The ordered union of all tuples from each...</p>
         </section>
+        <span>2017-01-14</span>
       </div>
     
       <div class="nav-item">
@@ -304,6 +319,7 @@ on customized objects rather than just numbers. To create a new calculator on cu
           <p><h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
 <p>Both of Linked List and Array List serve as collections for storing a sequence of elements. The difference between these two...</p>
         </section>
+        <span>2017-01-14</span>
       </div>
     
       <div class="nav-item">
@@ -313,6 +329,7 @@ on customized objects rather than just numbers. To create a new calculator on cu
 <p>GapList is a Java implementation for <a href="https://en.wikipedia.org/wiki/Gap_buffer">Gap Buffer</a>. It allows efficient
 insertion and deletion...</p>
         </section>
+        <span>2016-12-12</span>
       </div>
     
       <div class="nav-item">
@@ -322,14 +339,7 @@ insertion and deletion...</p>
 <p>The traversal of a binary tree is pretty easy to implement and we already know that there are three ways of tree traversal:
 <em>preorder</em>, <em>inorder</em>, <em>postorder</em>. The traversal with recursion is trivial, so is there...</p>
         </section>
-      </div>
-    
-      <div class="nav-item">
-        <h2><a href="2016-11-9-what-i-learned-from-building-this-website/">What I learned from building this blog website</a></h2>
-        <section class="nav-item-excerpt">
-          <p><h3 id="why-choose-jekyll">Why choose Jekyll<a class="headerlink" href="#why-choose-jekyll" title="Permanent link">&para;</a></h3>
-<p>The answer is <a href="https://daringfireball.net/projects/markdown/">markdown</a>. There are many articles about why...</p>
-        </section>
+        <span>2016-11-21</span>
       </div>
     
   
@@ -372,15 +382,15 @@ insertion and deletion...</p>
       
     </div>
     
-      <script src="assets/javascripts/vendor.f81b9e8b.min.js"></script>
-      <script src="assets/javascripts/bundle.23546af0.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({
           base: ".",
           features: [],
           search: Object.assign({
-            worker: "assets/javascripts/worker/search.58d22e8e.min.js"
+            worker: "assets/javascripts/worker/search.7f7c8775.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
