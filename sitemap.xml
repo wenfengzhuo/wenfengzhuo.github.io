@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://wenfengzhuo.github.io/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2016-11-21-Tree-Traversal/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2016-11-9-what-i-learned-from-building-this-website/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2016-12-12-Gap-Buffer%20Implementation%20in%20Java/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2017-03-26-why-I-choose-quantcast/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2017-1-14-Linked-List/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2017-1-14-Union-Iterators/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2017-1-4-Anycalc/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2017-2-10-Implement-A%20Brand-new%20CQL%20Query%20Statement%20in%20Apache%20Cassandra/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2020-03-14-System%20Design%20-%201/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2020-04-01-System%20Design%20-%202/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/2020-04-09-ml-system-papers/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://wenfengzhuo.github.io/2020-04-26-managemnt-talk-1/</loc>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://wenfengzhuo.github.io/Build%20Your%20Own%20Search%20Engine%20-%201/</loc>
-     <lastmod>2020-04-12</lastmod>
+     <lastmod>2020-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

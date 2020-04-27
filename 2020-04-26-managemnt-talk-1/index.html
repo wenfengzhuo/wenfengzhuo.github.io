@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://wenfengzhuo.github.io/2017-1-14-Linked-List/">
+        <link rel="canonical" href="https://wenfengzhuo.github.io/2020-04-26-managemnt-talk-1/">
       
       
         <meta name="author" content="Wenfeng Zhuo">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Linked List vs Array List</title>
+        <title>A live talk with US Chinese community about performance at work</title>
       
     
     
@@ -64,11 +64,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#implementation" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -93,7 +88,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Linked List vs Array List
+              A live talk with US Chinese community about performance at work
             
           </span>
         </div>
@@ -152,40 +147,47 @@
                   
                 
                 
-                  <h1>Linked List vs Array List</h1>
+                  <h1>A live talk with US Chinese community about performance at work</h1>
                 
-                <h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
-<p>Both of Linked List and Array List serve as collections for storing a sequence of elements. The difference between these two lists is their internal implementation of the ways of storing objects.</p>
-<p>For linked list, every objects stored in it are connected or linked together by maintaining pointers that point its predecessor and successor, so the objects will be represented as a node internally, which holds the information of the object itself, the predecessor pointer and the successor pointer. Adding a new element is as simple as adding a node at the tail of the list.</p>
-<p>For array list, all objects will be stored in a pre-allocated array. The object will be directly added in the array without wrapping it as a node. The internal array could grow as more objects are added.</p>
-<h3 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
-<p>With knowing their implementation, we could derive their performance clearly from operation perspective.</p>
-<p><strong>Add</strong></p>
-<p>For adding new object at the tail of the list, both of linked list and array list will have O(1) time for this operation. A difference is that if all slots in array list are exhausted, the list will grow to hold more objects, then a extra copy from the old array to the new array will be executed.  This will cost extra time compared with linked list, although this cost will be amortized to O(1).</p>
-<p>For adding  new object in a position other than the tail of the list, the linked list will cost O(n/2) in worst case because it will first iterate the list to reach the node in the target position and then insert the added object by linking it. For array list, finding the position to insert the added object cost O(1) time, but there is an extra O(n) time in worst case to shift all object (to the right of the target position) to the right by one position.</p>
-<p><strong>Deletion</strong></p>
-<p>Linked list will cost O(n/2) time in worst case for delete a object if the target is in the middle of the list. In linked list, the deletion could be achieved by first finding that target node and then unlinking it from its predecessor and successor. Finding the object will cost O(n/2) time, and the unlinking will cost O(1) time.</p>
-<p>Array list will only cost O(1) time to delete a target object, but it still requires extra time to shift all objects (to the right of the deleted object) to the left. If we delete the first object of the list in array list, then a copy of the rest of objects will be performed and this will nearly cost O(n) time (n is the length of the array). In total, the deletion will cost O(n) time for array list in worst case.</p>
-<p><strong>Retrieve by index</strong></p>
-<p>For linked list, retrieving an object by its index in the list will cost O(n/2) time as we need to iterate as most as half of the list to find the object if it resides in the middle of the list.</p>
-<p>For array list, retrieving an object is as simple as retrieving the object in its internal array, so this will guarantee that it only costs O(1) time.</p>
-<p><strong>Space</strong></p>
-<p>Linked list will consume more space than array list as it has overhead to store the pointers, and specifically in Java, there will also be overhead for objects, because linked list will create a node object to represent each data item. Array list directly stores the original data item in an array which makes it consume less space.</p>
-<h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
-<p>With their differences in implementation and performance, linked list and array list will be used in different scenarios.</p>
-<p><strong>Random Access</strong></p>
-<p>If we want to random access to the objects in the list, array list will be a better choice because each retrieval operation will only cost O(1) time. A typical example is that when we want to use quick-sort to sort the objects in the memory, storing those objects in an array list will achieve high performance.</p>
-<p>Even for sequential access, the array list will generally perform better than linked list thanks to the good locality of reference. A simple explanation of locality of reference is that the memory near the already accessed memory is tended to be cached so retrieving it will be faster than retrieving those in RAM.</p>
-<p><strong>Density of Data</strong></p>
-<p>If the data that is stored in a grid-way, or there are multiple dimensions to access the data, and the data is sparse distributed, then it is better to use linked list. A typical example is sparse matrix. Using array list would consume too much unnecessary memory in this case. Another example I could think up is the representation of a polynomial equation.</p>
-<p><strong>Manipulating data</strong></p>
-<p>If we want to insert or delete data during the iterator of the list, linked list will outperform than array list. This is because array list will cost extra time to move data when adding or deleting an element in a specific.</p>
-<p><strong>access order</strong></p>
-<p>A common requirement in practice is that we might need to maintain the access order of the objects, for example a LRU cache. Using linked list to implement this cache is an easy task. The recently accessed object could be put in the tail of the list, and the front object of the list will be the one which is least recently used, and if the cache reaches its capacity, we could evict the front objects. Both of those operations will cost only O(1) time. In Java, it is very quick to implement a LRU cache by inheriting LinkedHashMap and overriding its removeEldestEntry method.</p>
-<p><strong>memory</strong></p>
-<p>As the overhead of memory to store objects in linked list, it is always better to choose array list to store large amount of data in memory.</p>
-<p><strong>Basic data structure</strong></p>
-<p>Linked list usually is the choice to be used as the underlying data structures of queues and stacks thanks to its O(1) operations of adding and removing object at the head or tail of the list.</p>
+                <blockquote>
+<p>Disclaimer:
+The ideas, thoughts, opinions, and suggestions in the video are all based on my personal learning and experience, and they have nothing related with any other person or organization.</p>
+</blockquote>
+<p>During the national-wide lockdown, I gave a talk about performance at work in a live online event held by a popular BBS among Chinese in the US. The talk was mainly focusing two topics related to "performance":</p>
+<ul>
+<li>Performance Management</li>
+<li>Interview Performance</li>
+</ul>
+<p>The goal of the sharing was to help students and people at work understand how performance is evaluated at work. <strong>The uniqueness of the talk was the content was based on a manager's experience, which could give the audience a different <code>angle</code> to think about the high-stake performance-related matters.</strong></p>
+<p>A brief agenda of the talk was presented as follows:</p>
+<ul>
+<li>Introduction</li>
+<li>Performance Management<ul>
+<li>Performance Rating</li>
+<li>Calibration</li>
+<li>Promotion</li>
+<li>Give Feedback</li>
+</ul>
+</li>
+<li>Interview Performance<ul>
+<li>Screening</li>
+<li>Phone Interview</li>
+<li>Onsite</li>
+<li>Evaluation (pre-brief, de-brief)</li>
+</ul>
+</li>
+<li>Discussion (Q&amp;A)</li>
+</ul>
+<p>Below is the video on Youtube.</p>
+<blockquote>
+<p>Note:
+This is a live talk I gave in an online event held by a popular BBS among Chinese in the US, so the language was in Chinese.</p>
+</blockquote>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C7jDlCWp7Og" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTA4MjQwMDk2OCwxMDczNzEyOTBdfQ==
+-->
                 
                   
                 
@@ -196,7 +198,7 @@
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://wenfengzhuo.github.io/2017-1-14-Linked-List/",this.page.identifier="/2017-1-14-Linked-List/"};!function(){var e=document,i=e.createElement("script");i.src="//wenfengzhuo.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)}()</script>
+  <script>var disqus_config=function(){this.page.url="https://wenfengzhuo.github.io/2020-04-26-managemnt-talk-1/",this.page.identifier="/2020-04-26-managemnt-talk-1/"};!function(){var e=document,i=e.createElement("script");i.src="//wenfengzhuo.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)}()</script>
 
               
             </article>
